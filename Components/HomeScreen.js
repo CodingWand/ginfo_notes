@@ -1,22 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Button, ImageBackground, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, SafeAreaView, FlatList, Pressable } from 'react-native';
 import NoteSheet from './NoteSheet';
 import notes from "../services/notes";
 
+
+//Component life cycle
 class HomeScreen extends Component
 {
   constructor(props) {
     super(props);
+
+    this.state = {
+      DATA: notes,
+    };
   }
 
-  state = {
-    DATA: notes,
-  };
+  componentDidMount() {
+    this.onFocus = this.props.navigation.addListener("focus", (e) => {
+      this.setState({DATA: notes});
+    });
+  }
 
-  onFocus = this.props.navigation.addListener("focus", (e) => {
-    this.setState({DATA: notes});
-  });
+  componentWillUnmount() {
+    //Delete onFocus
+    removeEventListener('focus', this.onFocus);
+  }
 
   getNavigator() {
     return this.props.navigation;
@@ -40,7 +49,6 @@ class HomeScreen extends Component
 
               <FlatList
                 data={this.state.DATA}
-                //Trouver MIEUX que ça pour la lisibilité !!!!!!!
                 renderItem={({item, index}) => {
                   return (
                     <NoteSheet
@@ -59,7 +67,18 @@ class HomeScreen extends Component
             </View>
   
             <View style={styles.footer}>
-              <Text style={{color: "white"}}>{"Ajouter le bouton de création !"}</Text>
+              <Pressable
+              style={styles.creationButton}
+              onPress={()=>{
+                this.props.navigation.navigate("Editing", {
+                  title: "",
+                  content: "",
+                  noteID: this.state.DATA.length,
+                });
+              }}
+              >
+                <Text style={styles.creationButtonText}>Nouveau</Text>
+              </Pressable>
             </View>
   
           </SafeAreaView>
@@ -100,6 +119,18 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: "row",
       justifyContent: "center",
+    },
+    creationButton : {
+      backgroundColor: "#009532",
+      borderRadius: 10,
+      justifyContent: "center",
+      paddingHorizontal: 10,
+      marginVertical: 15,
+    },
+    creationButtonText: {
+      color: "white",
+      fontWeight: "bold",
+      fontSize: 20,
     },
     backgroundImageStyle: {
       flex: 1,
