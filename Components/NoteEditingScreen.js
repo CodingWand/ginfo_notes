@@ -15,24 +15,30 @@ class NoteEditingScreen extends Component
         }
     }
 
-    beforeLeaving = this.props.navigation.addListener("beforeRemove", (e) => {
-        if(this.state.title != this.props.route.params.title || this.state.content != this.props.route.params.content)
-        {
-            let noteID = this.props.route.params.noteID;
-            if(noteID == notes.length)
+    componentDidMount() {
+        this.beforeLeaving = this.props.navigation.addListener("beforeRemove", (e) => {
+            if(this.state.title != this.props.route.params.title || this.state.content != this.props.route.params.content)
             {
-                notes.push({
-                    id: noteID,
-                    title: this.state.title,
-                    content: this.state.content,
-                    creationDate: "31/02/2022",
-                });
-                return;
+                let noteID = this.props.route.params.noteID;
+                if(noteID == notes.length)
+                {
+                    notes.push({
+                        id: noteID,
+                        title: this.state.title,
+                        content: this.state.content,
+                        creationDate: "31/02/2022",
+                    });
+                    return;
+                }
+                notes[noteID].title = this.state.title;
+                notes[noteID].content = this.state.content;
             }
-            notes[noteID].title = this.state.title;
-            notes[noteID].content = this.state.content;
-        }
-    });
+        });
+    }
+
+    componentWillUnmount() {
+        removeEventListener("beforeRemove", this.beforeLeaving);
+    }
 
     render() {
         return (

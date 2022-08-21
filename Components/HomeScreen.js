@@ -5,7 +5,6 @@ import NoteSheet from './NoteSheet';
 import notes from "../services/notes";
 
 
-//Component life cycle
 class HomeScreen extends Component
 {
   constructor(props) {
