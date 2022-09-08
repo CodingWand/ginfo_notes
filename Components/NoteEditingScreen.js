@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
-import { StyleSheet, View, TextInput, Text, Pressable } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import notes from '../services/notes';
-import NoteSheet from './NoteSheet';
 import {connect} from 'react-redux';
 import {addNote, modifyNote} from './../services/noteSlice';
 
