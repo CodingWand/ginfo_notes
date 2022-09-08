@@ -3,6 +3,12 @@ import React, {Component} from 'react';
 import { StyleSheet, View, TextInput, Text, Pressable } from 'react-native';
 import notes from '../services/notes';
 import NoteSheet from './NoteSheet';
+import {connect} from 'react-redux';
+import {addNote, modifyNote} from './../services/noteSlice';
+
+const mapStateToProps = (state) => {
+    return state
+};  
 
 class NoteEditingScreen extends Component
 {
@@ -22,22 +28,36 @@ class NoteEditingScreen extends Component
                 let noteID = this.props.route.params.noteID;
                 if(noteID == notes.length)
                 {
+                    /*
                     notes.push({
                         id: noteID,
                         title: this.state.title,
                         content: this.state.content,
                         creationDate: "31/02/2022",
                     });
+                    */
+                    this.props.dispatch(addNote({
+                        noteID: noteID,
+                        title : this.state.title,
+                        content : this.state.content,
+                    }));
                     return;
                 }
+                /*
                 notes[noteID].title = this.state.title;
                 notes[noteID].content = this.state.content;
+                */
+                this.props.dispatch(modifyNote({
+                    noteID: noteID,
+                    title : this.state.title,
+                    content : this.state.content,
+                }));
             }
         });
     }
 
     componentWillUnmount() {
-        removeEventListener("beforeRemove", this.beforeLeaving);
+        //this.props.navigation.removeEventListener("beforeRemove", this.beforeLeaving);
     }
 
     render() {
@@ -99,4 +119,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default NoteEditingScreen;
+export default connect(mapStateToProps)(NoteEditingScreen);

@@ -3,27 +3,22 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, ImageBackground, SafeAreaView, FlatList, Pressable } from 'react-native';
 import NoteSheet from './NoteSheet';
 import notes from "../services/notes";
+import {connect} from 'react-redux';
 
+const mapStateToProps = (state) => {
+  return state
+};
 
 class HomeScreen extends Component
 {
   constructor(props) {
     super(props);
-
-    this.state = {
-      DATA: notes,
-    };
   }
 
   componentDidMount() {
-    this.onFocus = this.props.navigation.addListener("focus", (e) => {
-      this.setState({DATA: notes});
-    });
   }
 
   componentWillUnmount() {
-    //Delete onFocus
-    removeEventListener('focus', this.onFocus);
   }
 
   getNavigator() {
@@ -47,7 +42,7 @@ class HomeScreen extends Component
             <View style={styles.body}>
 
               <FlatList
-                data={this.state.DATA}
+                data={ this.props.notes.data }
                 renderItem={({item, index}) => {
                   return (
                     <NoteSheet
@@ -72,7 +67,7 @@ class HomeScreen extends Component
                 this.props.navigation.navigate("Editing", {
                   title: "",
                   content: "",
-                  noteID: this.state.DATA.length,
+                  noteID: this.props.notes.length ,
                 });
               }}
               >
@@ -136,4 +131,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HomeScreen;
+export default connect(mapStateToProps)(HomeScreen);
