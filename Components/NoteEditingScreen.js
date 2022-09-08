@@ -26,32 +26,17 @@ class NoteEditingScreen extends Component
             if(this.state.title != this.props.route.params.title || this.state.content != this.props.route.params.content)
             {
                 let noteID = this.props.route.params.noteID;
-                if(noteID == notes.length)
-                {
-                    /*
-                    notes.push({
-                        id: noteID,
-                        title: this.state.title,
-                        content: this.state.content,
-                        creationDate: "31/02/2022",
-                    });
-                    */
-                    this.props.dispatch(addNote({
-                        noteID: noteID,
-                        title : this.state.title,
-                        content : this.state.content,
-                    }));
-                    return;
-                }
-                /*
-                notes[noteID].title = this.state.title;
-                notes[noteID].content = this.state.content;
-                */
-                this.props.dispatch(modifyNote({
+                const payload = {
                     noteID: noteID,
                     title : this.state.title,
                     content : this.state.content,
-                }));
+                };
+                if(noteID == notes.length)
+                {
+                    this.props.dispatch(addNote(payload));
+                    return;
+                }
+                this.props.dispatch(modifyNote(payload));
             }
         });
     }
