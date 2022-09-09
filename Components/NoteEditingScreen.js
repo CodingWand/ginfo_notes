@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
-import notes from '../services/notes';
 import {connect} from 'react-redux';
 import {addNote, modifyNote} from './../services/noteSlice';
 
@@ -21,6 +20,7 @@ class NoteEditingScreen extends Component
     }
 
     componentDidMount() {
+        const myNotes = this.props.notes;
         this.beforeLeaving = this.props.navigation.addListener("beforeRemove", (e) => {
             if(this.state.title != this.props.route.params.title || this.state.content != this.props.route.params.content)
             {
@@ -30,7 +30,7 @@ class NoteEditingScreen extends Component
                     title : this.state.title,
                     content : this.state.content,
                 };
-                if(noteID == notes.length)
+                if(noteID == myNotes.length)
                 {
                     this.props.dispatch(addNote(payload));
                     return;

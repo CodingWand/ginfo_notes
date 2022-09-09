@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, ImageBackground, SafeAreaView, FlatList, Pressable } from 'react-native';
 import NoteSheet from './NoteSheet';
-import notes from "../services/notes";
 import {connect} from 'react-redux';
 
 const mapStateToProps = (state) => {
