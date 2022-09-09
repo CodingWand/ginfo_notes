@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, ImageBackground, SafeAreaView, FlatList, Pressable } from 'react-native';
 import NoteSheet from './NoteSheet';
 import {connect} from 'react-redux';
+import {Cache} from 'react-native-cache';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const mapStateToProps = (state) => {
   return state
@@ -15,6 +17,20 @@ class HomeScreen extends Component
   }
 
   componentDidMount() {
+    const myNotes = this.props.notes;
+    this.onFocus = this.props.navigation.addListener("focus", async (e) => {
+      
+      const cache = new Cache({
+        namespace: "myGInfoNotes",
+        policy: {
+            maxEntries: 50000, // if unspecified, it can have unlimited entries
+            stdTTL: 0 // the standard ttl as number in seconds, default: 0 (unlimited)
+        },
+        backend: AsyncStorage
+      });
+
+      cache.set("notes", myNotes.data);
+    });
   }
 
   componentWillUnmount() {
