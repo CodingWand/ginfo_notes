@@ -14,7 +14,7 @@ export const noteSlice = createSlice({
             "tempore porro. Ab fugit corporis ut suscipit dolorum sit impedit error qui " +
             "nemo beatae ut quis quia. Non pariatur consequatur sed placeat voluptatem est " +
             "tempora reprehenderit est omnis asperiores id aliquid velit quo totam voluptas.",
-            creationDate: "03/05/2022",
+            creationDate: '2022-09-09',
         },
         {
             id: 1,
@@ -30,17 +30,18 @@ export const noteSlice = createSlice({
             "tempore porro. Ab fugit corporis ut suscipit dolorum sit impedit error qui nemo beatae " + 
             "ut quis quia. Non pariatur consequatur sed placeat voluptatem est tempora reprehenderit " +
             "est omnis asperiores id aliquid velit quo totam voluptas.",
-            creationDate: "03/05/2022",
+            creationDate: '2022-09-09',
         },
     ],
   },
   reducers: {
     addNote: (state, action) => {
+      const today = new Date();
       state.data.push({
         id: state.length,
         title: action.payload.title,
         content: action.payload.content,
-        //creationDate: "31/02/2022",
+        creationDate: today.toISOString().slice(0,10),
       });
       state.length++;
     },

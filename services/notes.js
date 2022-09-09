@@ -10,7 +10,7 @@ var notes = [
         "tempore porro. Ab fugit corporis ut suscipit dolorum sit impedit error qui " +
         "nemo beatae ut quis quia. Non pariatur consequatur sed placeat voluptatem est " +
         "tempora reprehenderit est omnis asperiores id aliquid velit quo totam voluptas.",
-        creationDate: "03/05/2022",
+        creationDate: Date.now().toString(),
     },
     {
         id: 1,
@@ -26,7 +26,7 @@ var notes = [
         "tempore porro. Ab fugit corporis ut suscipit dolorum sit impedit error qui nemo beatae " + 
         "ut quis quia. Non pariatur consequatur sed placeat voluptatem est tempora reprehenderit " +
         "est omnis asperiores id aliquid velit quo totam voluptas.",
-        creationDate: "03/05/2022",
+        creationDate: Date.now().toString(),
     },
 ];
 
