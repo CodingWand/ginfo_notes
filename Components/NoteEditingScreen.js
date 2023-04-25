@@ -34,7 +34,7 @@ class NoteEditingScreen extends Component
 
                 if(noteID == myNotes.length)
                 {
-                    this.props.dispatch(addNote({payload: myPayload, type: "ADDNOTE"}));
+                    this.props.dispatch(addNote(myPayload));
                     return;
                 }
                 this.props.dispatch(modifyNote(myPayload));

@@ -15,33 +15,6 @@ class HomeScreen extends Component
     super(props);
   }
 
-  async componentDidMount() {    
-    //await this.props.dispatch(loadNotes());
-
-    /*
-    const myNotes = this.props.notes;
-    this.onFocus = this.props.navigation.addListener("focus", async (e) => {
-      
-      const cache = new Cache({
-        namespace: "myGInfoNotes",
-        policy: {
-            maxEntries: 50000, // if unspecified, it can have unlimited entries
-            stdTTL: 0 // the standard ttl as number in seconds, default: 0 (unlimited)
-        },
-        backend: AsyncStorage
-      });
-
-      cache.set("notes", myNotes.data);
-
-      //const entries = await cache.get("notes");
-      //console.log(entries);
-    });
-    */
-  }
-
-  componentWillUnmount() {
-  }
-
   getNavigator() {
     return this.props.navigation;
   }

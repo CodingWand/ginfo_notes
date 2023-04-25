@@ -1,11 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
-import noteReducer, { loadNotes } from './services/noteSlice';
+import noteReducer from './services/noteSlice';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import thunk from 'redux-thunk';
 
-export default configureStore({
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, noteReducer)
+
+export const store = configureStore({
     reducer: {
-        notes: noteReducer,
+        notes: persistedReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    middleware: [thunk],//(getDefaultMiddleware) => getDefaultMiddleware({
+    //   serializableCheck: true,
+    // }),
 });
+
+export const persistor = persistStore(store)

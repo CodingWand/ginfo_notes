@@ -37,37 +37,17 @@ export const noteSlice = createSlice({
     ],
   },
   reducers: {// ===> use REDUX PERSIST to load and save data in the cache
-    loadNotes : async (state) => {
-      const cache = new Cache({
-        namespace: "myGInfoNotes",
-        policy: {
-            maxEntries: 50000,
-            stdTTL: 0
-        },
-        backend: AsyncStorage
-      });
-
-      const entries = await cache.get("notes");
-      let id = state.length;
-      for(note in entries) {
-        state.data.push({
-          id: id,
-          title : note.title,
-          content : note.content,
-          creationDate : note.creationDate,
-        });
-        id++;
-      }
-    },
     addNote: (state, action) => {
       const today = new Date();
+      const noteID = state.length;
+      state.length = noteID + 1;
       state.data.push({
-        id: state.length,
+        id: noteID,
         title: action.payload.title,
         content: action.payload.content,
         creationDate: today.toISOString().slice(0,10),
       });
-      state.length++;
+      console.log(action);
     },
     modifyNote: (state, action) => {
         const noteID = action.payload.noteID;
@@ -83,6 +63,6 @@ export const noteSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { loadNotes, addNote, modifyNote, deleteNote } = noteSlice.actions
+export const { addNote, modifyNote, deleteNote } = noteSlice.actions
 
 export default noteSlice.reducer
