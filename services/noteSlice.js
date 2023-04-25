@@ -1,4 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Cache} from 'react-native-cache';
 
 export const noteSlice = createSlice({
   name: 'notes',
@@ -34,7 +36,29 @@ export const noteSlice = createSlice({
         },
     ],
   },
-  reducers: {
+  reducers: {// ===> use REDUX PERSIST to load and save data in the cache
+    loadNotes : async (state) => {
+      const cache = new Cache({
+        namespace: "myGInfoNotes",
+        policy: {
+            maxEntries: 50000,
+            stdTTL: 0
+        },
+        backend: AsyncStorage
+      });
+
+      const entries = await cache.get("notes");
+      let id = state.length;
+      for(note in entries) {
+        state.data.push({
+          id: id,
+          title : note.title,
+          content : note.content,
+          creationDate : note.creationDate,
+        });
+        id++;
+      }
+    },
     addNote: (state, action) => {
       const today = new Date();
       state.data.push({
@@ -53,12 +77,12 @@ export const noteSlice = createSlice({
     deleteNote: (state, action) => {
       //delete a note
       const noteID = action.payload.noteID;
-      state.data.splice(noteID, noteID);
+      state.notes.splice(noteID, noteID);
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addNote, modifyNote, deleteNote } = noteSlice.actions
+export const { loadNotes, addNote, modifyNote, deleteNote } = noteSlice.actions
 
 export default noteSlice.reducer

@@ -3,8 +3,7 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, ImageBackground, SafeAreaView, FlatList, Pressable } from 'react-native';
 import NoteSheet from './NoteSheet';
 import {connect} from 'react-redux';
-import {Cache} from 'react-native-cache';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import {loadNotes} from './../services/noteSlice';
 
 const mapStateToProps = (state) => {
   return state
@@ -16,7 +15,10 @@ class HomeScreen extends Component
     super(props);
   }
 
-  componentDidMount() {
+  async componentDidMount() {    
+    //await this.props.dispatch(loadNotes());
+
+    /*
     const myNotes = this.props.notes;
     this.onFocus = this.props.navigation.addListener("focus", async (e) => {
       
@@ -30,7 +32,11 @@ class HomeScreen extends Component
       });
 
       cache.set("notes", myNotes.data);
+
+      //const entries = await cache.get("notes");
+      //console.log(entries);
     });
+    */
   }
 
   componentWillUnmount() {
@@ -41,6 +47,7 @@ class HomeScreen extends Component
   }
 
   render() {
+    let notes = this.props.notes;
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -57,7 +64,8 @@ class HomeScreen extends Component
             <View style={styles.body}>
 
               <FlatList
-                data={ this.props.notes.data }
+                data={ notes.data }
+                extraData={ notes.data }
                 renderItem={({item, index}) => {
                   return (
                     <NoteSheet
@@ -82,7 +90,7 @@ class HomeScreen extends Component
                 this.props.navigation.navigate("Editing", {
                   title: "",
                   content: "",
-                  noteID: this.props.notes.length ,
+                  noteID: notes.length,
                 });
               }}
               >
